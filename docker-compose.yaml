@@ -12,6 +12,8 @@ services:
       - db
     env_file:
       - .env
+    networks:
+      - web_api
 
   db:
     image: postgres:13-alpine
@@ -19,6 +21,11 @@ services:
       - .env
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - web_api
 
 volumes:
   db_data:
+
+networks:
+  web_api:
