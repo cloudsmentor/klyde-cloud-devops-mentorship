@@ -10,9 +10,6 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
     "FLASK_DATABASE_URL", "sqlite:///test.db"
 )
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-
 
 if __name__ == "__main__":
     with app.app_context():
