@@ -3,7 +3,6 @@ version: "3.8"
 services:
   web:
     build: .
-    command: python app.py
     volumes:
       - ./py:/app
     ports:
