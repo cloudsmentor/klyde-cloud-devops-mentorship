@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-db
+  namespace: dev
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: postgres-db
+  template:
+    metadata:
+      labels:
+        app: postgres-db
+    spec:
+      containers:
+      - name: postgres-db
+        image: postgres:13-alpine
+        env:
+          # Try and migrate these to secrets
+          - name: POSTGRES_HOST
+            value: "db"
+          - name: POSTGRES_PORT
+            value: "5432"
+          - name: POSTGRES_USER
+            value: "postgres"
+          - name: POSTGRES_PASSWORD
+            value: "PASS"
+          - name: POSTGRES_DB
+            value: "klyde_db"
+        resources:
+          limits:
+            cpu: "1"
+            memory: "2Gi"
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /var/lib/postgresql/data
+        readinessProbe:
+          exec:
+            command: ["psql", "-w", "-U", "postgres", "-d", "klyde_db", "-c", "SELECT 1"]
+          initialDelaySeconds: 15
+          timeoutSeconds: 2
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command: ["psql", "-w", "-U", "postgres", "-d", "klyde_db", "-c", "SELECT 1"]
+          initialDelaySeconds: 45
+          timeoutSeconds: 2
+          periodSeconds: 10
+      volumes:
+      - name: postgres-data
+        persistentVolumeClaim:
+          claimName: postgres-db-pvc
