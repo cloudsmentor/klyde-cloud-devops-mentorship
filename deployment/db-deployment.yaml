@@ -20,18 +20,22 @@ spec:
       containers:
       - name: postgres-db
         image: postgres:13-alpine
+        ports:
+        - containerPort: 5432
         env:
-          # Try and migrate these to secrets
           - name: POSTGRES_HOST
-            value: "db"
+            value: "postgres-db"
           - name: POSTGRES_PORT
             value: "5432"
           - name: POSTGRES_USER
             value: "postgres"
-          - name: POSTGRES_PASSWORD
-            value: "PASS"
           - name: POSTGRES_DB
             value: "klyde_db"
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: postgres-password
         resources:
           limits:
             cpu: "1"

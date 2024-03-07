@@ -23,9 +23,19 @@ spec:
         ports:
         - containerPort: 5000
         env:
-        # Try and migrate these to secrets
-        - name: FLASK_DATABASE_URL
-          value: "postgresql://postgres:PASS@postgres-db:5432/klyde_db"
+        - name: POSTGRES_HOST
+          value: "postgres-db"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_USER
+          value: "postgres"
+        - name: POSTGRES_DB
+          value: "klyde_db"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postgres-password
         resources:
           limits:
             cpu: "1"

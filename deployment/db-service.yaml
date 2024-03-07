@@ -1,0 +1,11 @@
+# Cluster IP service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-db
+  namespace: dev
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: postgres-db
