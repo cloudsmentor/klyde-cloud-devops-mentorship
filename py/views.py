@@ -1,12 +1,19 @@
 from models.user import User
 from flask import request
-from flask import jsonify
-
 
 def init_app_routes(app, db):
     @app.route("/ping", methods=["GET"])
     def ping():
         return {"message": "pong"}
+    
+    @app.route("/health", methods=["GET"])
+    def health_check():
+        try:
+            db.session.execute('SELECT 1') # Attempt a simple database operation
+            return {"database": "up", "status": "ready"}
+        except Exception as e:
+            app.logger.error(f"Readiness check failed: {e}")
+            return {"database": "down", "status": "not ready"}
 
     @app.route("/users", methods=["POST"])
     def create_user():
