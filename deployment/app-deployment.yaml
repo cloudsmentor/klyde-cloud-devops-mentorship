@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-api
+  namespace: dev
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: flask-api
+  template:
+    metadata:
+      labels:
+        app: flask-api
+    spec:
+      containers:
+      - name: flask-api
+        image: localhost:5000/flask-api:latest
+        ports:
+        - containerPort: 5000
+        env:
+        # Try and migrate these to secrets
+        - name: FLASK_DATABASE_URL
+          value: "postgresql://postgres:PASS@db:5432/klyde_db"
+        resources:
+          limits:
+            cpu: "1"
+            memory: "512Mi"
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
