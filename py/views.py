@@ -2,6 +2,7 @@ from models.user import User
 from flask import request
 from flask import jsonify
 
+
 def init_app_routes(app, db):
     @app.route("/ping", methods=["GET"])
     def ping():
@@ -16,17 +17,14 @@ def init_app_routes(app, db):
         app.logger.info(f"Created User'{new_user.id}:{data['name']}'")
         return {"id": new_user.id}
 
-    @app.route("/get_users", methods=["GET"])
+    @app.route("/users", methods=["GET"])
     def get_users():
         all_users = User.query.all()
         users_list = []
         for user in all_users:
-            user_dict = {
-                'id': user.id,
-                'name': user.name
-            }
+            user_dict = {"id": user.id, "name": user.name}
             users_list.append(user_dict)
-        
+
         app.logger.info(f"Retrieved all users!")
         return {"users": users_list}
 
