@@ -19,13 +19,13 @@ spec:
     spec:
       containers:
       - name: flask-api
-        image: localhost:5000/flask-api:latest
+        image: localhost:6008/flask-api:latest
         ports:
         - containerPort: 5000
         env:
         # Try and migrate these to secrets
         - name: FLASK_DATABASE_URL
-          value: "postgresql://postgres:PASS@db:5432/klyde_db"
+          value: "postgresql://postgres:PASS@postgres-db:5432/klyde_db"
         resources:
           limits:
             cpu: "1"
