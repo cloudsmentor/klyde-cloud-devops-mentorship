@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres-db
-  namespace: dev
+  namespace: flask-api
 spec:
   strategy:
     type: RollingUpdate

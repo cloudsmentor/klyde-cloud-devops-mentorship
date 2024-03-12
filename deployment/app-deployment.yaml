@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flask-api
-  namespace: dev
+  namespace: flask-api
 spec:
   strategy:
     type: RollingUpdate
@@ -57,7 +57,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: flask-api-hpa
-  namespace: dev
+  namespace: flask-api
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
