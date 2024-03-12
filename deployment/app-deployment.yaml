@@ -20,21 +20,34 @@ spec:
       containers:
       - name: flask-api
         image: localhost:6008/flask-api:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         env:
         - name: POSTGRES_HOST
-          value: "postgres-db"
+          valueFrom:
+            configMapKeyRef:
+              name: flask-api-config
+              key: POSTGRES_HOST
         - name: POSTGRES_PORT
-          value: "5432"
+          valueFrom:
+            configMapKeyRef:
+              name: flask-api-config
+              key: POSTGRES_PORT
         - name: POSTGRES_USER
-          value: "postgres"
+          valueFrom:
+            configMapKeyRef:
+              name: flask-api-config
+              key: POSTGRES_USER
         - name: POSTGRES_DB
-          value: "klyde_db"
+          valueFrom:
+            configMapKeyRef:
+              name: flask-api-config
+              key: POSTGRES_DB
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgres-secret
+              name: postgres-db-secret
               key: postgres-password
         resources:
           limits:
@@ -52,23 +65,3 @@ spec:
             port: 5000
           initialDelaySeconds: 5
           periodSeconds: 10
----
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: flask-api-hpa
-  namespace: flask-api
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: flask-api
-  minReplicas: 1
-  maxReplicas: 5
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 50
