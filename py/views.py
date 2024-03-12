@@ -1,5 +1,6 @@
 from models.user import User
 from flask import request
+from sqlalchemy import text
 
 def init_app_routes(app, db):
     @app.route("/ping", methods=["GET"])
@@ -9,7 +10,7 @@ def init_app_routes(app, db):
     @app.route("/health", methods=["GET"])
     def health_check():
         try:
-            db.session.execute('SELECT 1') # Attempt a simple database operation
+            db.session.execute(text('SELECT 1')) # Attempt a simple database operation
             return {"database": "up", "status": "ready"}
         except Exception as e:
             app.logger.error(f"Readiness check failed: {e}")
