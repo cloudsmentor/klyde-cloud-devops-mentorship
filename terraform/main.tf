@@ -6,7 +6,7 @@ module "tags" {
   version = "0.0.1"
 
   project     = "flask-api"
-  client      = "Public"
+  client      = "public"
   owner       = "Klyde-Moradeyo"
-  environment = "Dev"
+  environment = "dev"
 }

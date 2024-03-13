@@ -5,7 +5,7 @@ variable "aws_region" {
 }
 
 variable "name" {
-  description = "Name"
+  description = "name"
   type        = string
   default     = "flask-api"
 }
