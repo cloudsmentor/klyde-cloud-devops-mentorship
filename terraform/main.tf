@@ -10,3 +10,5 @@ module "tags" {
   owner       = "Klyde-Moradeyo"
   environment = "dev"
 }
+
+data "aws_caller_identity" "current" {}
