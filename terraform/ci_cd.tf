@@ -17,8 +17,7 @@ resource "aws_iam_openid_connect_provider" "github_oidc" {
 #        IAM Role          #
 ############################
 module "gh_action_iam_role" {
-  source       = "km-tf-registry.onrender.com/klyde-moradeyo__dev-generic-tf-modues/iam-role/aws"
-  version      = "0.0.1"
+  source       = "./modules/iam-role"
 
   name         = "github-action"
   path         = "/"
@@ -53,8 +52,7 @@ module "gh_action_iam_role" {
 #       IAM Policy         #
 ############################
 module "gh_action_role_policy" {
-  source  = "km-tf-registry.onrender.com/klyde-moradeyo__dev-generic-tf-modues/iam-policy/aws"
-  version = "0.0.1"
+  source  = "./modules/iam-policy"
 
   description = "Github Access to ${local.gh_repo_full_name}"
   name = "github-action-ecr-access"
