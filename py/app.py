@@ -3,12 +3,15 @@ from views import init_app_routes
 from extensions import db, migrate
 import os
 
-# Load the environment variables from the .env file
+# database vars
+db_host = os.getenv("POSTGRES_HOST", None)
+db_port = os.getenv("POSTGRES_PORT", None)
+db_user = os.getenv("POSTGRES_USER", None)
+db_password = os.getenv("POSTGRES_PASSWORD", None)
+postgres_db =  os.getenv("POSTGRES_DB", None)
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
-    "FLASK_DATABASE_URL", "sqlite:///test.db"
-)
+app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{postgres_db}"
 
 if __name__ == "__main__":
 

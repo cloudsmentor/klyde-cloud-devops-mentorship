@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-api
+  namespace: flask-api
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: flask-api
+  template:
+    metadata:
+      labels:
+        app: flask-api
+    spec:
+      containers:
+      - name: flask-api
+        image: localhost:6008/flask-api:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - configMapRef:
+            name: flask-api-config
+        - secretRef:
+            name: postgres-db-secret
+        resources:
+          limits:
+            cpu: "1"
+            memory: "512Mi"
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
