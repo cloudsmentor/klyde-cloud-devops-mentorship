@@ -10,14 +10,26 @@ variable "name" {
   default     = "flask-api"
 }
 
-variable "github_org" {
-  description = "Github Orgnization"
+variable "project" {
+  description = "The name of the project"
   type        = string
-  default     = "devsmentor"
+  default     = "flask-api"
 }
 
-variable "github_repo" {
-  description = "Github Repo"
+variable "client" {
+  description = "The client for the project"
   type        = string
-  default     = "klyde-cloud-devops-mentorship"
+  default     = "public"
+}
+
+variable "owner" {
+  description = "The owner of the project"
+  type        = string
+  default     = "Klyde-Moradeyo"
+}
+
+variable "environment" {
+  description = "The project environment"
+  type        = string
+  default     = "dev"
 }

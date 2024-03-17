@@ -4,10 +4,8 @@
 module "tags" {
   source  = "./modules/tags"
 
-  project     = "flask-api"
-  client      = "public"
-  owner       = "Klyde-Moradeyo"
-  environment = "dev"
+  project     = var.project
+  client      = var.client
+  owner       = var.owner
+  environment = var.environment
 }
-
-data "aws_caller_identity" "current" {}
