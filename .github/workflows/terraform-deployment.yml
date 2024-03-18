@@ -35,7 +35,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-region: eu-west-2
-        role-to-assume: arn:aws:iam::847399026905:role/gh-action-klyde-cloud-devops-mentorship-dev-role
+        role-to-assume: arn:aws:iam::847399026905:role/gh-action-cloud-devops-mentorship-dev-role
         role-session-name: klyde_cloud_devops_mentorship
 
     - name: Setup Terraform
