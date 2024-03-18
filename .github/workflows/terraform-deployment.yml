@@ -17,6 +17,9 @@ on:
         required: true
         default: 'apply'
 
+permissions:
+  id-token: write   # This is required for requesting the JWT     
+
 jobs:
   terraform:
     name: Terraform CI/CD Pipeline
