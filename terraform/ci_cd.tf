@@ -1,3 +1,4 @@
+# Idealy this should be in its own repo away from this project
 locals {
   gh_repo_full_name = "${var.github_org}/${var.github_repo}"
 }
@@ -78,7 +79,8 @@ module "gh_action_ecr_role_policy" {
           "ecr:BatchCheckLayerAvailability",
           "ecr:PutLifecyclePolicy",
           "ecr:GetLifecyclePolicy",
-          "ecr:DeleteLifecyclePolicy"
+          "ecr:DeleteLifecyclePolicy",
+          "ecr:GetAuthorizationToken"
         ]
         Resource = [
           module.ecr.repository_arn
