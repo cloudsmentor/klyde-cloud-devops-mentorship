@@ -1,5 +1,5 @@
 locals {
-    gh_repo_full_name = "${var.github_org}/${var.github_repo}"
+  gh_repo_full_name = "${var.github_org}/${var.github_repo}"
 }
 
 ############################
@@ -10,20 +10,20 @@ resource "aws_iam_openid_connect_provider" "github_oidc" {
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"]
   url             = "https://token.actions.githubusercontent.com"
-  tags = module.tags.tags
+  tags            = module.tags.tags
 }
 
 ############################
 #        IAM Role          #
 ############################
 module "gh_action_iam_role" {
-  source       = "./modules/iam-role"
+  source = "./modules/iam-role"
 
-  name         = "gh-action"
-  path         = "/"
-  description  = "IAM role for Repo '${local.gh_repo_full_name}' GitHub Actions to access ECR"
+  name        = "gh-action"
+  path        = "/"
+  description = "IAM role for Repo '${local.gh_repo_full_name}' GitHub Actions to access ECR"
   policy_arns = {
-    "gh-action-ecr-access" = module.gh_action_ecr_role_policy.policy_arn
+    "gh-action-ecr-access"             = module.gh_action_ecr_role_policy.policy_arn
     "github-action-tf-state-s3-access" = module.gh_action_s3_state_role_policy.policy_arn
   }
 
@@ -55,10 +55,10 @@ module "gh_action_iam_role" {
 #       IAM Policy         #
 ############################
 module "gh_action_ecr_role_policy" {
-  source  = "./modules/iam-policy"
+  source = "./modules/iam-policy"
 
   description = "Github Action (${local.gh_repo_full_name}) access to ecr"
-  name = "github-action-ecr-access"
+  name        = "github-action-ecr-access"
 
   policy_hcl = {
     Version = "2012-10-17"
@@ -80,21 +80,21 @@ module "gh_action_ecr_role_policy" {
           "ecr:GetLifecyclePolicy",
           "ecr:DeleteLifecyclePolicy"
         ]
-        Resource = [ 
-          module.ecr.repository_arn 
+        Resource = [
+          module.ecr.repository_arn
         ]
       }
     ]
   }
-  
+
   tags = module.tags.tags
 }
 
 module "gh_action_s3_state_role_policy" {
-  source  = "./modules/iam-policy"
+  source = "./modules/iam-policy"
 
   description = "Github Action (${local.gh_repo_full_name}) access to terraform S3 state file"
-  name = "github-action-tf-state-s3-access"
+  name        = "github-action-tf-state-s3-access"
 
   policy_hcl = {
     Version = "2012-10-17"
@@ -104,7 +104,7 @@ module "gh_action_s3_state_role_policy" {
         Action = [
           "s3:ListBucket"
         ]
-        Resource = [ 
+        Resource = [
           "arn:aws:s3:::terraform-state-s3-pfqdhvmq"
         ]
       },
@@ -115,13 +115,13 @@ module "gh_action_s3_state_role_policy" {
           "s3:GetObjectAcl",
           "s3:PutObject"
         ]
-        Resource = [ 
+        Resource = [
           "arn:aws:s3:::terraform-state-s3-pfqdhvmq/klyde-cloud-devops-mentorship/terraform.tfstate"
         ]
       }
     ]
   }
-  
+
   tags = module.tags.tags
 }
 

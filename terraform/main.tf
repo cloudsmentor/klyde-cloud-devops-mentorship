@@ -2,7 +2,7 @@
 #        tags          #
 ########################
 module "tags" {
-  source  = "./modules/tags"
+  source = "./modules/tags"
 
   project     = var.project
   client      = var.client
