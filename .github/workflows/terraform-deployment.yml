@@ -7,6 +7,7 @@ on:
       - feature/* # for testing
     paths:
       - 'terraform/**'
+      - '.github/workflows/terraform-deployment.yml'
   pull_request:
     paths:
       - 'terraform/**'
@@ -35,8 +36,7 @@ jobs:
       with:
         aws-region: eu-west-2
         role-to-assume: arn:aws:iam::847399026905:role/gh-action-flask-api-dev-role
-        role-session-name: klyde-cloud-devops-mentorship
-        web-identity-token-file: ${{ github.token_path }} 
+        role-session-name: klyde_cloud_devops_mentorship
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
