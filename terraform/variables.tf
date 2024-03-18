@@ -13,7 +13,7 @@ variable "name" {
 variable "project" {
   description = "The name of the project"
   type        = string
-  default     = "flask-api"
+  default     = "cloud-devops-mentorship"
 }
 
 variable "client" {
