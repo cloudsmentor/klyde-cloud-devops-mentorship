@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature/* # for testing
     paths:
       - 'terraform/**'
   pull_request:
