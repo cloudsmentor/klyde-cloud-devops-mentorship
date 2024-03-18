@@ -19,7 +19,7 @@ resource "aws_iam_openid_connect_provider" "github_oidc" {
 module "gh_action_iam_role" {
   source       = "./modules/iam-role"
 
-  name         = "github-action"
+  name         = "gh-action"
   path         = "/"
   description  = "IAM role for Repo '${local.gh_repo_full_name}' GitHub Actions to access ECR"
   policy_arns = {
