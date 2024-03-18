@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "name" {
   description = "name"
   type        = string
-  default     = "test-flask-api"
+  default     = "flask-api"
 }
 
 variable "project" {
