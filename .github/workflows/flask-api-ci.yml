@@ -17,6 +17,7 @@ permissions:
 
 env:
   TF_DIR: "./terraform"
+  TF_VERSION: "1.6.3"
   AWS_REGION: eu-west-2
   AWS_ROLE_TO_ASSUME: arn:aws:iam::847399026905:role/gh-action-cloud-devops-mentorship-dev-role
   AWS_ROLE_SESSION_NAME: klyde_cloud_devops_mentorship
@@ -41,7 +42,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.6.3
+          terraform_version: ${{ env.TF_VERSION }}
 
       - name: Initialize Terraform Env
         working-directory: ${{ env.TF_DIR }}
