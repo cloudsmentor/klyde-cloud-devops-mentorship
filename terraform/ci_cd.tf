@@ -71,7 +71,6 @@ module "gh_action_ecr_role_policy" {
           "ecr:DescribeRepositories",
           "ecr:ListTagsForResource",
           "ecr:DeleteRepository",
-          "ecr:GetAuthorizationToken",
           "ecr:PutImage",
           "ecr:InitiateLayerUpload",
           "ecr:UploadLayerPart",
@@ -80,11 +79,17 @@ module "gh_action_ecr_role_policy" {
           "ecr:PutLifecyclePolicy",
           "ecr:GetLifecyclePolicy",
           "ecr:DeleteLifecyclePolicy",
-          "ecr:GetAuthorizationToken"
         ]
         Resource = [
           module.ecr.repository_arn
         ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:GetAuthorizationToken"
+        ]
+        Resource = [ "*" ]
       }
     ]
   }
