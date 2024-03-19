@@ -11,7 +11,7 @@ module "resource_name_prefix" {
 ############################
 #       IAM Policy         #
 ############################
-resource "aws_iam_policy" "this" {
+resource "aws_iam_policy" "iam_policy" {
   name        = "${module.resource_name_prefix.resource_name}-policy"
   path        = var.path
   description = var.description

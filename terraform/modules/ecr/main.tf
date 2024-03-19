@@ -11,7 +11,7 @@ module "resource_name_prefix" {
 ########################
 #         ECR          #
 ########################
-resource "aws_ecr_repository" "this" {
+resource "aws_ecr_repository" "ecr" {
   name                 = "${module.resource_name_prefix.resource_name}-ecr"
   image_tag_mutability = var.image_tag_mutability
 
@@ -27,9 +27,9 @@ resource "aws_ecr_repository" "this" {
   tags   = var.tags
 }
 
-resource "aws_ecr_lifecycle_policy" "this" {
+resource "aws_ecr_lifecycle_policy" "ecr_lifecycle_policy" {
   count      = length(var.lifecycle_policy_rules) > 0 ? 1 : 0
-  repository = aws_ecr_repository.this.name
+  repository = aws_ecr_repository.ecr.name
 
   policy = jsonencode({
     rules = [for rule in var.lifecycle_policy_rules : {

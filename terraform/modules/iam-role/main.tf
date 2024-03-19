@@ -18,7 +18,7 @@ locals {
   )
 }
 
-resource "aws_iam_role" "this" {
+resource "aws_iam_role" "iam_role" {
   name               = "${module.resource_name_prefix.resource_name}-role"
   path               = var.path
   description        = var.description
@@ -26,11 +26,11 @@ resource "aws_iam_role" "this" {
   tags               = var.tags
 }
 
-resource "aws_iam_policy_attachment" "this" {
+resource "aws_iam_policy_attachment" "policy_attachment" {
   for_each   = var.policy_arns
 
   name       = "${each.key}-${module.resource_name_prefix.resource_name}-policy"
-  roles      = [aws_iam_role.this.name]
+  roles      = [aws_iam_role.iam_role.name]
   policy_arn = each.value
 }
 
