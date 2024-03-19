@@ -12,7 +12,7 @@ variable "name" {
 variable "image_tag_mutability" {
   description = "Image tag mutability settings (MUTABLE or IMMUTABLE)"
   type        = string
-  default     = "IMMUTABLE"
+  default     = "MUTABLE"
 }
 
 variable "scan_on_push" {
