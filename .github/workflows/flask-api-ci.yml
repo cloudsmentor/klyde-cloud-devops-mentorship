@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature/*
     paths:
       - 'py/**'
       - '.github/workflows/flask-api-ci.yml'
@@ -16,6 +17,9 @@ permissions:
 
 env:
   TF_DIR: "./terraform"
+  AWS_REGION: eu-west-2
+  AWS_ROLE_TO_ASSUME: arn:aws:iam::847399026905:role/gh-action-cloud-devops-mentorship-dev-role
+  AWS_ROLE_SESSION_NAME: klyde_cloud_devops_mentorship
 
 jobs:
   get-tf-outputs:
@@ -30,9 +34,9 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-region: eu-west-2
-          role-to-assume: arn:aws:iam::847399026905:role/gh-action-cloud-devops-mentorship-dev-role
-          role-session-name: klyde_cloud_devops_mentorship
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ env.AWS_ROLE_TO_ASSUME }}
+          role-session-name: ${{ env.AWS_ROLE_SESSION_NAME }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -64,9 +68,9 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-region: eu-west-2
-        role-to-assume: arn:aws:iam::847399026905:role/gh-action-cloud-devops-mentorship-dev-role
-        role-session-name: klyde_cloud_devops_mentorship
+        aws-region: ${{ env.AWS_REGION }}
+        role-to-assume: ${{ env.AWS_ROLE_TO_ASSUME }}
+        role-session-name: ${{ env.AWS_ROLE_SESSION_NAME }}
 
     - name: Login to Amazon ECR
       uses: aws-actions/amazon-ecr-login@v2
