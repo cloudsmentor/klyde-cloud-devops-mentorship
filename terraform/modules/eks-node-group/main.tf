@@ -12,34 +12,16 @@ module "resource_name_prefix" {
 #         EKS          #
 ########################
 locals {
-  cluster_name = "${module.resource_name_prefix.resource_name}"
   node_group_name = "${module.resource_name_prefix.resource_name}-node-grp"
 }
 
-resource "aws_eks_cluster" "cluster" {
-  depends_on = [ module.eks_node_iam_role ]
-
-  name     =  local.cluster_name
-  role_arn = module.eks_cluster_iam_role.iam_role_arn
-
-  vpc_config {
-    subnet_ids = var.subnet_ids
-  }
-  
-  tags = var.tags
-}
-
-resource "time_sleep" "wait_after_cluster_creation" {
-  depends_on = [aws_eks_cluster.cluster]
-
-  create_duration = "5s" # "600s"
-}
-
+# How do I give the ec2 instances a name on console?
 resource "aws_eks_node_group" "node_group" {
-  depends_on = [ module.eks_node_iam_role, time_sleep.wait_after_cluster_creation ]
-  cluster_name    = local.cluster_name
+  depends_on = [ module.eks_nodes_iam_role ]
+
+  cluster_name    = var.cluster_name
   node_group_name = local.node_group_name
-  node_role_arn   = module.eks_node_iam_role.iam_role_arn
+  node_role_arn   = module.eks_nodes_iam_role.iam_role_arn
   version        = var.kubernetes_version
   subnet_ids      = var.subnet_ids
   labels         = var.node_labels

@@ -9,16 +9,15 @@ variable "name" {
 ########################
 #         EKS          #
 ########################
+variable "cluster_name" {
+  type        = string
+  description = "Name of the eks cluster"
+}
+
 variable "subnet_ids" {
   type        = list(string)
-  description = "List of subnet IDs for the EKS cluster"
+  description = "List of node group subnet IDs for the EKS cluster"
 }
-
-variable "node_group_name" {
-  type        = string
-  description = "The name of the EKS node group."
-}
-
 
 variable "desired_size" {
   type        = number
@@ -53,7 +52,7 @@ variable "capacity_type" {
   default     = "ON_DEMAND"
 }
 
-variable "policy_arns" {
+variable "iam_role_policy_arns" {
   type        = map(string)
   description = "The list ARNs of the policy to attach to the node group role."
 }
