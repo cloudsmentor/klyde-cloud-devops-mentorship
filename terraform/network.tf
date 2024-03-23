@@ -84,22 +84,12 @@ module "internet_gateway" {
   tags   = module.tags.tags
 }
 
-#########################
-#     EIP for NAT       #
-#########################
-# module "eip" {
-#   source = "./modules/eip"
-
-#   name = var.name
-
-#   tags = module.tags.tags
-# }
-
 ########################
 #      NAT Gateway     #
 ########################
 module "nat_gateway" {
   source = "./modules/nat-gateway"
+  depends_on = [ module.internet_gateway, module.public_route_table ]
 
   name = var.name
 

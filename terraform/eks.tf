@@ -29,7 +29,7 @@ module "eks_node_group" {
   max_size       = 3
   min_size       = 1
   ami_type       = "AL2_x86_64"
-  instance_types = ["m5.large"]
+  instance_types = [ "t3.small" ] # "m5.large"]
   capacity_type  = "ON_DEMAND"
   iam_role_policy_arns = {
     "AmazonEKSWorkerNodePolicy"          = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
