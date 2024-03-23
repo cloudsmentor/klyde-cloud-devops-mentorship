@@ -42,6 +42,18 @@ variable "iam_role_policy_arns" {
   # default = {}
 }
 
+variable "eks_addons" {
+  description = "List of EKS addons to install, with each item being a map containing the addon_name, addon_version, and conflict resolution strategies."
+  type = list(object({
+    name                      = string
+    version                   = string
+    resolve_conflicts_on_create = optional(string)
+    resolve_conflicts_on_update = optional(string)
+  }))
+  default = []
+}
+
+
 ########################
 #         Tags         #
 ########################

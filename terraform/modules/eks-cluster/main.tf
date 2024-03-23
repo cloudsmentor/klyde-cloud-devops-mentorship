@@ -31,3 +31,18 @@ resource "aws_eks_cluster" "cluster" {
   
   tags = var.tags
 }
+
+resource "aws_eks_addon" "addons" {
+  for_each = { for idx, addon in var.eks_addons : idx => addon }
+
+  cluster_name             = aws_eks_cluster.cluster.name
+  addon_name               = each.value.name
+  addon_version            = each.value.version
+  resolve_conflicts_on_create = each.value.resolve_conflicts_on_create != "" ? each.value.resolve_conflicts_on_create : null
+  resolve_conflicts_on_update = each.value.resolve_conflicts_on_update != "" ? each.value.resolve_conflicts_on_update : null
+
+  tags = var.tags
+}
+
+
+

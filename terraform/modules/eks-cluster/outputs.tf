@@ -25,3 +25,12 @@ output "eks_cluster_name" {
   description = "The name of the EKS Cluster."
   value       = aws_eks_cluster.cluster.name
 }
+
+output "eks_addons_output" {
+  value = { for addon in aws_eks_addon.addons : addon.addon_name => {
+    status       = addon.status
+    addon_version = addon.addon_version
+  }}
+  description = "Map of EKS addons with their statuses and versions."
+}
+
