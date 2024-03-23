@@ -13,7 +13,7 @@ variable "name" {
 variable "project" {
   description = "The name of the project"
   type        = string
-  default     = "flask-api"
+  default     = "cloud-devops-mentorship"
 }
 
 variable "client" {
@@ -32,4 +32,16 @@ variable "environment" {
   description = "The project environment"
   type        = string
   default     = "dev"
+}
+
+variable "github_org" {
+  description = "Github Orgnization"
+  type        = string
+  default     = "devsmentor"
+}
+
+variable "github_repo" {
+  description = "Github Repo"
+  type        = string
+  default     = "klyde-cloud-devops-mentorship"
 }
