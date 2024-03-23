@@ -26,11 +26,17 @@ output "eks_cluster_name" {
   value       = aws_eks_cluster.cluster.name
 }
 
-output "eks_addons_output" {
-  value = { for addon in aws_eks_addon.addons : addon.addon_name => {
-    status       = addon.status
-    addon_version = addon.addon_version
+output "eks_addons_details" {
+  description = "Details of the EKS addons deployed."
+  value = { for idx, addon in aws_eks_addon.addons : idx => {
+    name                      = addon.addon_name
+    version                   = addon.addon_version
+    role_arn = addon.service_account_role_arn
   }}
-  description = "Map of EKS addons with their statuses and versions."
+}
+
+output "eks_oidc_issuer_url" {
+  description = "The OIDC provider URL for the EKS cluster"
+  value       = aws_eks_cluster.cluster.identity.0.oidc.0.issuer
 }
 

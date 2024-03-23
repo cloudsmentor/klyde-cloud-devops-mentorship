@@ -47,6 +47,7 @@ variable "eks_addons" {
   type = list(object({
     name                      = string
     version                   = string
+    service_account_role_arn    = optional(string)
     resolve_conflicts_on_create = optional(string)
     resolve_conflicts_on_update = optional(string)
   }))

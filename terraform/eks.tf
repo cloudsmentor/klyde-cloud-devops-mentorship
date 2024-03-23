@@ -1,7 +1,6 @@
 ########################
 #         EKS          #
 ########################
-
 module "eks_cluster" {
   source = "./modules/eks-cluster"
 
@@ -14,6 +13,14 @@ module "eks_cluster" {
   iam_role_policy_arns = {
     "AmazonEKSClusterPolicy" = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   }
+
+  eks_addons = [
+    {
+      name                      = local.ebs_csi_driver_name
+      version                   = local.ebs_csi_driver_version
+      service_account_role_arn  = module.eks_ebs_csi_iam_role.iam_role_arn
+    }
+  ]
 
   tags = module.tags.tags
 }

@@ -38,6 +38,7 @@ resource "aws_eks_addon" "addons" {
   cluster_name             = aws_eks_cluster.cluster.name
   addon_name               = each.value.name
   addon_version            = each.value.version
+  service_account_role_arn = each.value.service_account_role_arn != "" ? each.value.service_account_role_arn : null
   resolve_conflicts_on_create = each.value.resolve_conflicts_on_create != "" ? each.value.resolve_conflicts_on_create : null
   resolve_conflicts_on_update = each.value.resolve_conflicts_on_update != "" ? each.value.resolve_conflicts_on_update : null
 
