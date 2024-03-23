@@ -2,10 +2,11 @@
 #        VPC           #
 ########################
 module "vpc" {
-  source = "git@github.com:Klyde-Moradeyo/terraform-modules.git//modules/aws/vpc?ref=dev"
+  source = "./modules/vpc"
 
   name     = var.name
   vpc_cidr = var.vpc_cidr
+  enable_dns_hostnames = true
   tags     = module.tags.tags
 }
 
@@ -18,9 +19,9 @@ locals {
 }
 
 module "private_subnets" {
-  source = "git@github.com:Klyde-Moradeyo/terraform-modules.git//modules/aws/subnet?ref=dev"
+  source = "./modules/subnet"
 
-  name                    = var.name
+  name                    = "${var.name}-private"
   vpc_id                  = module.vpc.vpc_id
   subnets                 = local.private_subnets
   map_public_ip_on_launch = false
@@ -29,9 +30,9 @@ module "private_subnets" {
 }
 
 module "public_subnets" {
-  source = "git@github.com:Klyde-Moradeyo/terraform-modules.git//modules/aws/subnet?ref=dev"
+  source = "./modules/subnet"
 
-  name                    = var.name
+  name                    = "${var.name}-public"
   vpc_id                  = module.vpc.vpc_id
   subnets                 = local.public_subnets
   map_public_ip_on_launch = true
@@ -45,7 +46,7 @@ module "public_subnets" {
 module "public_route_table" {
   source = "./modules/route-table"
 
-  name   = var.name
+  name   = "${var.name}-public"
   vpc_id = module.vpc.vpc_id
   routes = [
     {
@@ -61,7 +62,7 @@ module "public_route_table" {
 module "private_route_table" {
   source = "./modules/route-table"
 
-  name   = var.name
+  name   = "${var.name}-private"
   vpc_id = module.vpc.vpc_id
   routes = [{
       cidr_block = "0.0.0.0/0"
@@ -76,7 +77,7 @@ module "private_route_table" {
 #   Internet Gateway   #
 ########################
 module "internet_gateway" {
-  source = "git@github.com:Klyde-Moradeyo/terraform-modules.git//modules/aws/internet-gateway?ref=dev"
+  source = "./modules/internet-gateway"
 
   name   = var.name
   vpc_id = module.vpc.vpc_id
@@ -102,7 +103,7 @@ module "nat_gateway" {
 
   name = var.name
 
-  subnet_id     = module.private_subnets.subnet_ids[0]
+  subnet_id     = module.public_subnets.subnet_ids[0]
 
   tags = module.tags.tags
 }
@@ -128,13 +129,29 @@ module "cluster_sg" {
       description      = "Allow Inbound HTTPS Traffic to Control Plane"
     },
     {
-      from_port        = 80
-      to_port          = 80
+      from_port        = 10250
+      to_port          = 10250
       protocol         = "tcp"
       cidr_blocks      = []
       security_groups  = [module.worker_node_sg.security_group_id]
       ipv6_cidr_blocks = []
       description      = "Allow worker nodes to communicate with the cluster API Server"
+    },
+    {
+      from_port        = 53
+      to_port          = 53
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = []
+      description      = "Cluster security group (TCP)"
+    },
+    {
+      from_port        = 53
+      to_port          = 53
+      protocol         = "udp"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = []
+      description      = "Cluster security group (UDP)"
     }
   ]
 
@@ -142,11 +159,11 @@ module "cluster_sg" {
     {
       from_port        = 0
       to_port          = 0
-      protocol         = "-1"
+      protocol         = -1
       cidr_blocks      = ["0.0.0.0/0"]
       ipv6_cidr_blocks = []
       description      = "Allow all outbound traffic"
-    },
+    }
   ]
 }
 
@@ -161,14 +178,6 @@ module "worker_node_sg" {
 
   ingress_rules = [
     {
-      from_port        = 22
-      to_port          = 22
-      protocol         = "tcp"
-      cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = []
-      description      = "SSH access to worker nodes from anywhere"
-    },
-    {
       from_port        = 0
       to_port          = 0
       protocol         = -1
@@ -176,7 +185,7 @@ module "worker_node_sg" {
       ipv6_cidr_blocks = []
       description      = "Allow woker nodes to communicate with each other"
       self             = true
-    }
+    } 
   ]
 
   egress_rules = [
