@@ -4,7 +4,7 @@
 module "eks_nodes_iam_role" {
   source = "../iam-role"
 
-  name        = "node-group"
+  name        = "eks-node-group"
   path        = "/"
   description = "IAM Role for ${var.cluster_name} EKS Node"
   policy_arns = var.iam_role_policy_arns
