@@ -29,11 +29,12 @@ spec:
             name: postgres-db-secret
         resources:
           limits:
-            cpu: "1"
+            cpu: "500m"
             memory: "2Gi"
         volumeMounts:
         - name: postgres-data
           mountPath: /var/lib/postgresql/data
+          subPath: postgresql_data
         readinessProbe:
           exec:
             command: ["psql", "-w", "-U", "postgres", "-d", "klyde_db", "-c", "SELECT 1"]
