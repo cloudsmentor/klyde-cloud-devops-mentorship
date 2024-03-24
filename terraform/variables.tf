@@ -35,6 +35,21 @@ variable "environment" {
 }
 
 ########################
+#        CI_CD         #
+########################
+variable "github_org" {
+  description = "Github Orgnization"
+  type        = string
+  default     = "devsmentor"
+}
+
+variable "github_repo" {
+  description = "Github Repo"
+  type        = string
+  default     = "klyde-cloud-devops-mentorship"
+}
+
+########################
 #        VPC           #
 ########################
 variable "vpc_cidr" {
