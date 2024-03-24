@@ -89,7 +89,7 @@ module "gh_action_ecr_role_policy" {
         Action = [
           "ecr:GetAuthorizationToken"
         ]
-        Resource = [ "*" ]
+        Resource = ["*"]
       }
     ]
   }

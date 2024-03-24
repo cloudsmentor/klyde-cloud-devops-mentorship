@@ -4,10 +4,10 @@
 module "vpc" {
   source = "./modules/vpc"
 
-  name     = var.name
-  vpc_cidr = var.vpc_cidr
+  name                 = var.name
+  vpc_cidr             = var.vpc_cidr
   enable_dns_hostnames = true
-  tags     = module.tags.tags
+  tags                 = module.tags.tags
 }
 
 ########################
@@ -65,8 +65,8 @@ module "private_route_table" {
   name   = "${var.name}-private"
   vpc_id = module.vpc.vpc_id
   routes = [{
-      cidr_block = "0.0.0.0/0"
-      nat_gateway_id = module.nat_gateway.nat_gateway_id
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = module.nat_gateway.nat_gateway_id
   }]
   subnets = module.private_subnets.subnet_ids
 
@@ -88,12 +88,12 @@ module "internet_gateway" {
 #      NAT Gateway     #
 ########################
 module "nat_gateway" {
-  source = "./modules/nat-gateway"
-  depends_on = [ module.internet_gateway, module.public_route_table ]
+  source     = "./modules/nat-gateway"
+  depends_on = [module.internet_gateway, module.public_route_table]
 
   name = var.name
 
-  subnet_id     = module.public_subnets.subnet_ids[0]
+  subnet_id = module.public_subnets.subnet_ids[0]
 
   tags = module.tags.tags
 }
@@ -175,7 +175,7 @@ module "worker_node_sg" {
       ipv6_cidr_blocks = []
       description      = "Allow woker nodes to communicate with each other"
       self             = true
-    } 
+    }
   ]
 
   egress_rules = [

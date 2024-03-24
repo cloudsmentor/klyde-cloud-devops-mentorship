@@ -2,10 +2,10 @@
 #   Resource Naming    #
 ########################
 module "resource_name_prefix" {
-  source  = "../resource-name-prefix"
+  source = "../resource-name-prefix"
 
   name = var.name
-  tags   = var.tags
+  tags = var.tags
 }
 
 ########################
@@ -24,7 +24,7 @@ resource "aws_ecr_repository" "ecr" {
     kms_key         = var.kms_key_id
   }
 
-  tags   = var.tags
+  tags = var.tags
 }
 
 resource "aws_ecr_lifecycle_policy" "ecr_lifecycle_policy" {
@@ -36,10 +36,10 @@ resource "aws_ecr_lifecycle_policy" "ecr_lifecycle_policy" {
       rulePriority = rule.priority
       description  = rule.description
       selection = {
-        tagStatus = "tagged"
+        tagStatus     = "tagged"
         tagPrefixList = [for k, v in rule.selection_tag : v]
-        countType      = rule.action_type == "maximum_number" ? "imageCountMoreThan" : "sinceImagePushed"
-        countNumber    = rule.action_type == "maximum_number" ? rule.maximum_number : rule.maximum_age
+        countType     = rule.action_type == "maximum_number" ? "imageCountMoreThan" : "sinceImagePushed"
+        countNumber   = rule.action_type == "maximum_number" ? rule.maximum_number : rule.maximum_age
       }
       action = {
         type = "expire"

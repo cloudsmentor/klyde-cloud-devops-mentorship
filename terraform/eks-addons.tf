@@ -1,7 +1,7 @@
-locals {  
-    ebs_csi_driver_name = "aws-ebs-csi-driver"
-    ebs_csi_driver_version = "v1.28.0-eksbuild.1"
-    oidc_issuer_str = replace(module.eks_cluster.eks_oidc_issuer_url, "https://", "")
+locals {
+  ebs_csi_driver_name    = "aws-ebs-csi-driver"
+  ebs_csi_driver_version = "v1.28.0-eksbuild.1"
+  oidc_issuer_str        = replace(module.eks_cluster.eks_oidc_issuer_url, "https://", "")
 }
 
 resource "aws_iam_openid_connect_provider" "eks_oidc" {
@@ -22,7 +22,7 @@ module "eks_ebs_csi_iam_role" {
   path        = "/"
   description = "IAM role for ${local.ebs_csi_driver_name} - version: ${local.ebs_csi_driver_name}"
   policy_arns = {
-    "AmazonEBSCSIDriverPolicy"             = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+    "AmazonEBSCSIDriverPolicy" = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
   }
 
   trust_policy_hcl = {

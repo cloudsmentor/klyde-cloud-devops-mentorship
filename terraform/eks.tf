@@ -16,9 +16,9 @@ module "eks_cluster" {
 
   eks_addons = [
     {
-      name                      = local.ebs_csi_driver_name
-      version                   = local.ebs_csi_driver_version
-      service_account_role_arn  = module.eks_ebs_csi_iam_role.iam_role_arn
+      name                     = local.ebs_csi_driver_name
+      version                  = local.ebs_csi_driver_version
+      service_account_role_arn = module.eks_ebs_csi_iam_role.iam_role_arn
     }
   ]
 
@@ -36,7 +36,7 @@ module "eks_node_group" {
   max_size       = 3
   min_size       = 1
   ami_type       = "AL2_x86_64"
-  instance_types = [ "m5.large"]
+  instance_types = ["m5.large"]
   capacity_type  = "ON_DEMAND"
   iam_role_policy_arns = {
     "AmazonEKSWorkerNodePolicy"          = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",

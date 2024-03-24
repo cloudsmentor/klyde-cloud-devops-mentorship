@@ -2,10 +2,10 @@
 #   Resource Naming    #
 ########################
 module "resource_name_prefix" {
-  source  = "../resource-name-prefix"
+  source = "../resource-name-prefix"
 
   name = var.name
-  tags   = var.tags
+  tags = var.tags
 }
 
 ########################
@@ -17,18 +17,18 @@ locals {
 
 # How do I give the ec2 instances a name on console?
 resource "aws_eks_node_group" "node_group" {
-  depends_on = [ module.eks_nodes_iam_role ]
+  depends_on = [module.eks_nodes_iam_role]
 
   cluster_name    = var.cluster_name
   node_group_name = local.node_group_name
   node_role_arn   = module.eks_nodes_iam_role.iam_role_arn
-  version        = var.kubernetes_version
+  version         = var.kubernetes_version
   subnet_ids      = var.subnet_ids
-  labels         = var.node_labels
+  labels          = var.node_labels
 
-  ami_type        = var.ami_type
-  instance_types  = var.instance_types
-  capacity_type   = var.capacity_type
+  ami_type       = var.ami_type
+  instance_types = var.instance_types
+  capacity_type  = var.capacity_type
 
   scaling_config {
     desired_size = var.desired_size

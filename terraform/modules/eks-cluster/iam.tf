@@ -10,14 +10,14 @@ module "eks_cluster_iam_role" {
   policy_arns = var.iam_role_policy_arns
 
   trust_policy_hcl = {
-    Version   = "2012-10-17",
+    Version = "2012-10-17",
     Statement = [
       {
-        Effect    = "Allow",
-        Principal = { 
-          Service = "eks.amazonaws.com" 
+        Effect = "Allow",
+        Principal = {
+          Service = "eks.amazonaws.com"
         },
-        Action    = "sts:AssumeRole"
+        Action = "sts:AssumeRole"
       }
     ]
   }

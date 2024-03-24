@@ -2,7 +2,7 @@
 #     Naming Config      #
 ##########################
 module "resource_name_prefix" {
-  source  = "../resource-name-prefix"
+  source = "../resource-name-prefix"
 
   name = var.name
   tags = var.tags
@@ -13,7 +13,7 @@ module "resource_name_prefix" {
 ########################
 module "eip" {
   source = "../eip"
-  count = var.allocation_id != "" ? 0 : 1
+  count  = var.allocation_id != "" ? 0 : 1
 
   name = var.name
   tags = var.tags

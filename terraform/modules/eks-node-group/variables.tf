@@ -77,12 +77,12 @@ variable "node_labels" {
 
 variable "taints" {
   description = "List of taints to apply to the nodes in the group."
-  type        = list(object({
+  type = list(object({
     key    = string
     value  = string
     effect = string
   }))
-  default     = []
+  default = []
 }
 
 variable "max_unavailable_percentage" {

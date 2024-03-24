@@ -29,10 +29,10 @@ output "eks_cluster_name" {
 output "eks_addons_details" {
   description = "Details of the EKS addons deployed."
   value = { for idx, addon in aws_eks_addon.addons : idx => {
-    name                      = addon.addon_name
-    version                   = addon.addon_version
+    name     = addon.addon_name
+    version  = addon.addon_version
     role_arn = addon.service_account_role_arn
-  }}
+  } }
 }
 
 output "eks_oidc_issuer_url" {

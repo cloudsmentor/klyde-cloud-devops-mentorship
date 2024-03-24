@@ -2,7 +2,7 @@
 #     Naming Config      #
 ##########################
 module "resource_name_prefix" {
-  source  = "../resource-name-prefix"
+  source = "../resource-name-prefix"
 
   name = var.name
   tags = var.tags
@@ -13,7 +13,7 @@ module "resource_name_prefix" {
 ############################
 resource "aws_eip" "eip" {
   instance = var.instance_id != "" ? var.instance_id : null
-  domain      = "vpc"
+  domain   = "vpc"
 
   tags = merge(
     {
