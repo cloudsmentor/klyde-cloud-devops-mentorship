@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: flask-api
-        image: localhost:6008/flask-api:latest
+        image: 847399026905.dkr.ecr.eu-west-2.amazonaws.com/flask-api-cloud-devops-mentorship-dev-ecr:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
@@ -30,7 +30,7 @@ spec:
             name: postgres-db-secret
         resources:
           limits:
-            cpu: "1"
+            cpu: "500m"
             memory: "512Mi"
         livenessProbe:
           httpGet:

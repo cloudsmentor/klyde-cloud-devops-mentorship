@@ -36,12 +36,12 @@ variable "kms_key_id" {
 variable "lifecycle_policy_rules" {
   description = "A list of maps defining lifecycle policy rules"
   type = list(object({
-    rulePriority    = number
-    description     = string
-    selection_tag   = map(string)
-    action_type     = string
-    maximum_age     = number
-    maximum_number  = number
+    rulePriority   = number
+    description    = string
+    selection_tag  = map(string)
+    action_type    = string
+    maximum_age    = number
+    maximum_number = number
   }))
   default = []
 }

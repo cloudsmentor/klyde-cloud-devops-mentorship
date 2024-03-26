@@ -2,7 +2,7 @@
 #     Naming Config      #
 ##########################
 module "resource_name_prefix" {
-  source  = "../resource-name-prefix"
+  source = "../resource-name-prefix"
 
   name = var.name
   tags = var.tags
@@ -22,12 +22,12 @@ resource "aws_iam_role" "iam_role" {
   name               = "${module.resource_name_prefix.resource_name}-role"
   path               = var.path
   description        = var.description
-  assume_role_policy = local.computed_assume_role_policy  
+  assume_role_policy = local.computed_assume_role_policy
   tags               = var.tags
 }
 
 resource "aws_iam_policy_attachment" "policy_attachment" {
-  for_each   = var.policy_arns
+  for_each = var.policy_arns
 
   name       = "${each.key}-${module.resource_name_prefix.resource_name}-policy"
   roles      = [aws_iam_role.iam_role.name]
