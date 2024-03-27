@@ -1,7 +1,0 @@
-{
-    "POSTGRES_HOST": "postgres-db",
-    "POSTGRES_PORT": "5432",
-    "POSTGRES_USER": "postgres",
-    "POSTGRES_DB": "klyde_db",
-    "ENVIRONMENT": "LOCAL-DEV"
-}

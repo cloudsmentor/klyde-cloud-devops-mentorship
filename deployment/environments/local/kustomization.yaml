@@ -1,13 +1,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# namespace: development-namespace
+namespace: local-flask-api
 
 resources:
   - "../../base"
 
 configMapGenerator:
 - name: flask-api-config
-  namespace: flask-api
-  files:
-    - config/config.json
+  literals:
+    - POSTGRES_HOST=postgres-db
+    - POSTGRES_PORT=5432
+    - POSTGRES_USER=postgres
+    - POSTGRES_DB=klyde_db
+    - ENVIRONMENT=LOCAL-DEV
