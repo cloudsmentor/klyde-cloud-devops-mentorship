@@ -1,0 +1,41 @@
+# overlays/development/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: prod-flask-api
+
+resources:
+  - "../../base"
+
+patches:
+  - path: app-replica-count.yaml
+  - path: db-resource-limit.yaml
+  - path: app-resource-limit.yaml
+
+configMapGenerator:
+- name: flask-api-config
+  literals:
+    - POSTGRES_HOST=postgres-db
+    - POSTGRES_PORT=5432
+    - POSTGRES_USER=postgres
+    - POSTGRES_DB=prod_db
+    - ENVIRONMENT=PRODUCTION
+
+images:
+- name: localhost:6008/flask-api
+  newName: 847399026905.dkr.ecr.eu-west-2.amazonaws.com/flask-api-cloud-devops-mentorship-dev-ecr:latest
+  newTag: PRODUCTION
+
+# secretGenerator:
+# - behavior: merge
+#   literals:
+#   - DB_PASSWORD=devpassword
+#   name: db-credentials-development
+
+# labels:
+# - includeSelectors: true
+#   pairs:
+#     app: myapp
+#     environment: development
+# patches:
+# - patch: patch_deployment.yaml
