@@ -8,7 +8,6 @@ resources:
   - app-deployment.yaml
   - app-hpa.yaml
   - app-service.yaml
-  - config-map.yaml
   - db-deployment.yaml
   - db-pv.yaml
   - db-secret.yaml

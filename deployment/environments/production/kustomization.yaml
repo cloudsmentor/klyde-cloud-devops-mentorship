@@ -14,10 +14,8 @@ patches:
 configMapGenerator:
 - name: flask-api-config
   namespace: flask-api
-  behavior: merge
-  literals:
-    - POSTGRES_DB=prod_db
-    - ENVIRONMENT=PRODUCTION
+  files:
+    - config/config.json
 
 images:
 - name: localhost:6008/flask-api

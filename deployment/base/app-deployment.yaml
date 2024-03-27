@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: flask-api
-        image: 847399026905.dkr.ecr.eu-west-2.amazonaws.com/flask-api-cloud-devops-mentorship-dev-ecr:latest
+        image: localhost:6008/flask-api:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
