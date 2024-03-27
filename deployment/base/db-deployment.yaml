@@ -37,14 +37,14 @@ spec:
           subPath: postgresql_data
         readinessProbe:
           exec:
-            command: ["psql", "-w", "-U", "postgres", "-d", "klyde_db", "-c", "SELECT 1"]
+            command: ["sh", "-c", "psql -w -U ${POSTGRES_USER} -d ${POSTGRES_DB} -c SELECT 1"]
           initialDelaySeconds: 15
           timeoutSeconds: 2
           periodSeconds: 10
         livenessProbe:
           exec:
-            command: ["psql", "-w", "-U", "postgres", "-d", "klyde_db", "-c", "SELECT 1"]
-          initialDelaySeconds: 45
+            command: ["sh", "-c", "psql -w -U ${POSTGRES_USER} -d ${POSTGRES_DB} -c SELECT 1"]
+          initialDelaySeconds: 30
           timeoutSeconds: 2
           periodSeconds: 10
       volumes:
